@@ -422,6 +422,21 @@ class wpematico_campaign_fetch_functions {
 						$featured = true;  
 					}
 					$imagen_src = apply_filters('wpematico_imagen_src', $imagen_src ); // allow strip parts 
+					
+					//Fix image with get params
+					trigger_error('[PecceG2] Original URL: '.$imagen_src, E_USER_NOTICE);
+
+					//Check if is a valid extension
+					$pg2_a_valid_extensions = array(".jpg", ".gif", ".png", ".tif", ".bmp", ".jpeg");
+					foreach($pg2_a_valid_extensions as $pg2_ka_valid_extensions => $pg2_sv_valid_extensions){
+						if(strpos($imagen_src, $pg2_sv_valid_extensions) !== false){
+							trigger_error('[PecceG2] Image extension: '.$pg2_sv_valid_extensions, E_USER_NOTICE);
+							$pg2_a_img_cutted = explode($pg2_sv_valid_extensions, $imagen_src);
+							$imagen_src = $pg2_a_img_cutted[0].$pg2_sv_valid_extensions;
+							trigger_error('[PecceG2] New image URL: '.$imagen_src, E_USER_NOTICE);
+						}
+					}
+					
 				    trigger_error(__('Uploading media...', 'wpematico' ).$imagen_src,E_USER_NOTICE);
 					$imagen_src_real = $this->getRelativeUrl($itemUrl, $imagen_src);
 					// Strip all white space on images URLs.	
@@ -432,6 +447,7 @@ class wpematico_campaign_fetch_functions {
 					//Fetch and Store the Image	
 					///////////////***************************************************************************************////////////////////////
 					$newimgname = apply_filters('wpematico_newimgname', sanitize_file_name(urlencode(basename($imagen_src_real))), $current_item, $campaign, $item  );  // new name here
+					
 					// Primero intento con mi funcion mas rapida
 					$upload_dir = wp_upload_dir();
 					$imagen_dst = trailingslashit($upload_dir['path']). $newimgname; 

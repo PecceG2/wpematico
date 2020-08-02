@@ -434,6 +434,8 @@ public static function template_box( $post ) {
 				<li><strong class="tag">{feedlogo}</strong> <?php _e('The feed\'s logo image URL.', 'wpematico' ); ?> </li>
 				<li><strong class="tag">{campaigntitle}</strong> <?php _e('This campaign title', 'wpematico' ); ?> </li>
 				<li><strong class="tag">{campaignid}</strong> <?php _e('This campaign ID.', 'wpematico' ); ?> </li>
+				<li><strong class="tag">{item_date}</strong> <?php _e('The date of the post item.', 'wpematico' ); ?> </li>
+				<li><strong class="tag">{item_time}</strong> <?php _e('The time of the post item.', 'wpematico' ); ?> </li>
 				<?php do_action('wpematico_print_template_tags', $campaign_data); ?>
 			</ul>
 			<p><b><?php _e('Examples:', 'wpematico' ); ?></b></p>
@@ -458,25 +460,27 @@ public static function template_box( $post ) {
 	//*************************************************************************************
 	public static function images_box( $post ) { 
 		global $post, $campaign_data, $cfg, $helptip;
-		$campaign_imgcache = $campaign_data['campaign_imgcache'];
-		$campaign_no_setting_img = $campaign_data['campaign_no_setting_img'];
-		$campaign_nolinkimg = $campaign_data['campaign_nolinkimg'];
-		$campaign_attach_img = $campaign_data['campaign_attach_img'];
-		$campaign_image_srcset = $campaign_data['campaign_image_srcset'];
-		$campaign_featuredimg = $campaign_data['campaign_featuredimg'];
-		$campaign_rmfeaturedimg = $campaign_data['campaign_rmfeaturedimg'];
-		$campaign_customupload = $campaign_data['campaign_customupload'];
+		$campaign_imgcache						 = $campaign_data['campaign_imgcache'];
+		$campaign_no_setting_img				 = $campaign_data['campaign_no_setting_img'];
+		$campaign_nolinkimg						 = $campaign_data['campaign_nolinkimg'];
+		$campaign_attach_img					 = $campaign_data['campaign_attach_img'];
+		$campaign_image_srcset					 = $campaign_data['campaign_image_srcset'];
+		$campaign_featuredimg					 = $campaign_data['campaign_featuredimg'];
+		$campaign_fifu							 = $campaign_data['campaign_fifu'];
+		$campaign_rmfeaturedimg					 = $campaign_data['campaign_rmfeaturedimg'];
+		$campaign_customupload					 = $campaign_data['campaign_customupload'];
 		$campaign_enable_featured_image_selector = $campaign_data['campaign_enable_featured_image_selector'];
-		$campaign_featured_selector_index = $campaign_data['campaign_featured_selector_index'];
-		$campaign_featured_selector_ifno = $campaign_data['campaign_featured_selector_ifno'];
-		if (!$campaign_no_setting_img) {
-			$campaign_imgcache = $cfg['imgcache'];
-			$campaign_nolinkimg = $cfg['gralnolinkimg'];
-			$campaign_attach_img = $cfg['imgattach'];
-			$campaign_image_srcset = $cfg['image_srcset'];
-			$campaign_featuredimg = $cfg['featuredimg'];
-			$campaign_rmfeaturedimg = $cfg['rmfeaturedimg'];
-			$campaign_customupload = $cfg['customupload'];
+		$campaign_featured_selector_index		 = $campaign_data['campaign_featured_selector_index'];
+		$campaign_featured_selector_ifno		 = $campaign_data['campaign_featured_selector_ifno'];
+		if(!$campaign_no_setting_img) {
+			$campaign_imgcache		 = $cfg['imgcache'];
+			$campaign_nolinkimg		 = $cfg['gralnolinkimg'];
+			$campaign_attach_img	 = $cfg['imgattach'];
+			$campaign_image_srcset	 = $cfg['image_srcset'];
+			$campaign_featuredimg	 = $cfg['featuredimg'];
+			$campaign_fifu			 = $cfg['fifu'];
+			$campaign_rmfeaturedimg	 = $cfg['rmfeaturedimg'];
+			$campaign_customupload	 = $cfg['customupload'];
 		}
 		?>
 		
@@ -500,8 +504,9 @@ public static function template_box( $post ) {
 			<p></p>
 			<input class="checkbox" value="1" type="checkbox" <?php checked($campaign_featuredimg, true); ?> name="campaign_featuredimg" id="campaign_featuredimg" /><b>&nbsp;<label for="campaign_featuredimg"><?php _e('Set first image in content as Featured Image.', 'wpematico' ); ?></label></b><span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['featuredimg']; ?>"></span>
 			<br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($campaign_fifu, true); ?> name="campaign_fifu" id="campaign_fifu" /><b>&nbsp;<label for="campaign_fifu"><?php _e('Use Featured Image from URL.', 'wpematico' ); ?></label></b><span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['fifu']; ?>"></span>
+			<br />
 			
-
 			<input class="checkbox" value="1" type="checkbox" <?php checked($campaign_enable_featured_image_selector,true); ?> name="campaign_enable_featured_image_selector" id="campaign_enable_featured_image_selector" /><b>&nbsp;<label for="campaign_enable_featured_image_selector"><?php _e('Enable featured image selector.', 'wpematico' ); ?></label></b><span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['enable_featured_image_selector']; ?>"></span>
 				<div id="featured_img_selector_div" style="padding-left:20px; <?php if (!$campaign_enable_featured_image_selector) echo 'display:none;';?>">
 					<b><label for="featured_selector_index"><?php _e('Index to featured', 'wpematico' ); ?>:</label></b>
@@ -676,37 +681,43 @@ public static function template_box( $post ) {
 	//*************************************************************************************
 public static function options_box( $post ) { 
 	global $post, $campaign_data, $cfg, $helptip ;
-	$campaign_max = $campaign_data['campaign_max'];
-	$campaign_feed_order_date = $campaign_data['campaign_feed_order_date'];
-	$campaign_feeddate = $campaign_data['campaign_feeddate'];
-	$campaign_author = $campaign_data['campaign_author'];
-	$campaign_linktosource = $campaign_data['campaign_linktosource'];
-	$copy_permanlink_source = $campaign_data['copy_permanlink_source'];
-	$avoid_search_redirection = $campaign_data['avoid_search_redirection'];
-	$campaign_commentstatus = $campaign_data['campaign_commentstatus'];
-	$campaign_allowpings = $campaign_data['campaign_allowpings'];
-	$campaign_woutfilter = $campaign_data['campaign_woutfilter'];
-	$campaign_strip_links = $campaign_data['campaign_strip_links'];
-	$campaign_strip_links_options = $campaign_data['campaign_strip_links_options'];
-	$campaign_striphtml = $campaign_data['campaign_striphtml'];
+	$campaign_max				= $campaign_data['campaign_max'];
+	$campaign_feed_order_date	= $campaign_data['campaign_feed_order_date'];
+	$campaign_feeddate			= $campaign_data['campaign_feeddate'];
+	$campaign_feeddate_forced		 = $campaign_data['campaign_feeddate_forced'];
+	$campaign_author				 = $campaign_data['campaign_author'];
+	$campaign_linktosource			 = $campaign_data['campaign_linktosource'];
+	$copy_permanlink_source			 = $campaign_data['copy_permanlink_source'];
+	$avoid_search_redirection		 = $campaign_data['avoid_search_redirection'];
+	$campaign_commentstatus			 = $campaign_data['campaign_commentstatus'];
+	$campaign_allowpings			 = $campaign_data['campaign_allowpings'];
+	$campaign_woutfilter			 = $campaign_data['campaign_woutfilter'];
+	$campaign_strip_links			 = $campaign_data['campaign_strip_links'];
+	$campaign_strip_links_options	 = $campaign_data['campaign_strip_links_options'];
+	$campaign_striphtml				 = $campaign_data['campaign_striphtml'];
+	$campaign_get_excerpt			 = $campaign_data['campaign_get_excerpt'];
 
 	$campaign_enable_convert_utf8 = $campaign_data['campaign_enable_convert_utf8'];
-
-
 	?>
-	<div id="optionslayer" class="ibfix vtop">
-		<p>
-			<input name="campaign_max" type="number" min="0" size="3" value="<?php echo $campaign_max;?>" class="small-text" id="campaign_max"/> 
-			<label for="campaign_max"><?php echo __('Max items to create on each fetch.', 'wpematico' ); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['itemfetch']; ?>"></span>
+		<div id="optionslayer" class="ibfix vtop">
+			<p>
+				<input name="campaign_max" type="number" min="0" size="3" value="<?php echo $campaign_max; ?>" class="small-text" id="campaign_max"/> 
+				<label for="campaign_max"><?php echo __('Max items to create on each fetch.', 'wpematico'); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['itemfetch']; ?>"></span>
+			</p>
+			<p>
+				<input class="checkbox" type="checkbox"<?php checked($campaign_feed_order_date, true); ?> name="campaign_feed_order_date" value="1" id="campaign_feed_order_date"/>
+				<label for="campaign_feed_order_date"><?php echo __('Order feed items by Date before process.', 'wpematico'); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['feed_order_date']; ?>"></span>
+			</p>
+			<p>
+				<input class="checkbox" type="checkbox"<?php checked($campaign_feeddate, true); ?> name="campaign_feeddate" value="1" id="campaign_feeddate"/>
+				<label for="campaign_feeddate"><?php echo __('Use feed item date.', 'wpematico'); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['itemdate']; ?>"></span>
+			<div id="div_campaign_feeddate_options" style="margin-left:15px;<?php echo (($campaign_feeddate) ? '' : 'display:none;'); ?>">
+				<input class="checkbox" type="checkbox"<?php checked($campaign_feeddate_forced, true); ?> name="campaign_feeddate_forced" value="1" id="campaign_feeddate_forced"/> 
+				<label for="campaign_feeddate_forced"><?php _e('Force item date.', 'wpematico'); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['campaign_feeddate_forced']; ?>"></span>
+				<br />
+				<?php do_action('wpematico_feeddate_tools', $campaign_data, $cfg); ?>
+			</div>
 		</p>
-		<p>
-			<input class="checkbox" type="checkbox"<?php checked($campaign_feed_order_date ,true);?> name="campaign_feed_order_date" value="1" id="campaign_feed_order_date"/>
-			<label for="campaign_feed_order_date"><?php echo __('Order feed items by Date before process.', 'wpematico' ); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['feed_order_date']; ?>"></span>
-		</p>
-		<p>
-			<input class="checkbox" type="checkbox"<?php checked($campaign_feeddate ,true);?> name="campaign_feeddate" value="1" id="campaign_feeddate"/>
-			<label for="campaign_feeddate"><?php echo __('Use feed item date.', 'wpematico' ); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['itemdate']; ?>"></span>
-		</p>				
 		<p>
 			<input class="checkbox" type="checkbox"<?php checked($campaign_allowpings ,true);?> name="campaign_allowpings" value="1" id="campaign_allowpings"/> 
 			<label for="campaign_allowpings"><?php echo __('Pingbacks y trackbacks.', 'wpematico' ); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['allowpings']; ?>"></span>
@@ -731,6 +742,10 @@ public static function options_box( $post ) {
 		</p>
 	</div>	
 	<div id="optionslayer-right" class="ibfix vtop">
+		<p><input class="checkbox" type="checkbox"<?php checked($campaign_get_excerpt,true);?> name="campaign_get_excerpt" value="1" id="campaign_get_excerpt"/>
+			<label for="campaign_get_excerpt"><?php echo __('Fill Excerpt with item description field.', 'wpematico' ); ?></label>  <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['get_excerpt']; ?>"></span>
+		</p>
+		
 		<p><input class="checkbox" type="checkbox"<?php checked($campaign_striphtml,true);?> name="campaign_striphtml" value="1" id="campaign_striphtml"/>
 			<label for="campaign_striphtml"><?php echo __('Strip All HTML Tags', 'wpematico' ); ?></label>  <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['striphtml']; ?>"></span>
 		</p>
@@ -1060,6 +1075,10 @@ public static function feeds_box( $post ) {
 	//********************************
 	public static function youtube_box( $post ) {
 		global $post, $campaign_data, $helptip;
+		$campaign_youtube_embed = $campaign_data['campaign_youtube_embed'];
+		$campaign_youtube_sizes = $campaign_data['campaign_youtube_sizes'];
+		$campaign_youtube_width = $campaign_data['campaign_youtube_width'];
+		$campaign_youtube_height = $campaign_data['campaign_youtube_height'];
 		$campaign_youtube_ign_image = $campaign_data['campaign_youtube_ign_image'];
 		$campaign_youtube_image_only_featured = $campaign_data['campaign_youtube_image_only_featured'];
 		$campaign_youtube_ign_description = $campaign_data['campaign_youtube_ign_description'];
@@ -1084,6 +1103,13 @@ public static function feeds_box( $post ) {
 		
 		<div class="yt-help">
 			<?php echo html_entity_decode($helptip['feed_url']); ?>
+			<p></p>
+			<label><input class="checkbox" <?php checked($campaign_youtube_embed, true); ?> type="checkbox" name="campaign_youtube_embed" value="1" id="campaign_youtube_embed"> <?php _e('Use [embed] WP shortcode instead Youtube shared iframe.', 'wpematico'); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['youtube_embed']; ?>"></span><br />
+			<label><input class="checkbox" <?php checked($campaign_youtube_sizes, true); ?> type="checkbox" value="1" id="campaign_youtube_sizes" name="campaign_youtube_sizes"> <?php _e('Change the sizes of the video frames.', 'wpematico'); ?></label> <span class="dashicons dashicons-warning help_tip" title="<?php echo $helptip['youtube_sizes']; ?>"></span><br />
+			<div id="div_campaign_youtube_sizes" style="margin-left: 17px; <?php echo (!($campaign_youtube_sizes)? 'display: none;' : ''); ?> ">
+				<label><?php echo __('Width:', 'wpematico'); ?> <input name="campaign_youtube_width" type="number" min="0" size="3" value="<?php echo $campaign_youtube_width; ?>" class="small-text" id="campaign_youtube_width"/></label><br />
+				<label><?php echo __('Height:', 'wpematico'); ?> <input name="campaign_youtube_height" type="number" min="0" size="3" value="<?php echo $campaign_youtube_height; ?>" class="small-text" id="campaign_youtube_height"/></label>
+			</div>
 			<p><strong><?php _e('Ignore:', 'wpematico'); ?></strong></p>
 			
 			<label><input class="checkbox" <?php checked($campaign_youtube_ign_image, true); ?> type="checkbox" name="campaign_youtube_ign_image" value="1" id="campaign_youtube_ign_image"> <?php _e('Image', 'wpematico'); ?></label><br />

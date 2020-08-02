@@ -26,75 +26,8 @@ class WPeMatico_Campaign_edit extends WPeMatico_Campaign_edit_functions {
 		add_action('admin_print_styles-post-new.php', array( __CLASS__ ,'admin_styles'));
 		add_action('admin_print_scripts-post.php', array( __CLASS__ ,'admin_scripts'));
 		add_action('admin_print_scripts-post-new.php', array( __CLASS__ ,'admin_scripts'));
-		add_action( 'add_meta_boxes', array( __CLASS__ ,'all_meta_boxes'), 10, 2 );
 	}
-	public static function all_meta_boxes($post_type, $post) {
-		$cfg = get_option(WPeMatico::OPTION_KEY);
-		$cfg = apply_filters('wpematico_check_options', $cfg); 
-		$campaign_id = get_post_meta($post->ID, 'wpe_campaignid', true);
-		if (!empty($campaign_id) && !$cfg['disable_metaboxes_wpematico_posts']) {
-			add_meta_box( 
-		        'wpematico-all-meta-box',
-		        __('WPeMatico Campaign Info', 'wpematico' ),
-		        array(__CLASS__, 'render_all_meta_boxes'),
-		        $post_type,
-		        'normal',
-		        'default'
-	    	);
-		}
-	}
-	public static function render_all_meta_boxes() {
-		global $post;
-		$campaign_id = get_post_meta($post->ID, 'wpe_campaignid', true);
-		$feed = get_post_meta($post->ID, 'wpe_feed', true);
-		$source = get_post_meta($post->ID, 'wpe_sourcepermalink', true);
-		echo '<span class="description">' . __('All links are no-follow and open in a new browser tab.', 'wpematico' ).'</span>';
-		?><style type="text/css"> 
-			#wpematico-all-meta-box h2 {
-				background-color: orange;
-			}
-			.wpematico-data-table a {
-				text-decoration: none;
-			}
-			.wpematico-data-table a:hover {
-				text-decoration: underline;
-			}
-			.wpematico-data-table td:first-child {
-				padding-right: 10px;
-				text-align: right;
-			}
-			.wpematico-data-table tr {
-				height: 30px;
-				vertical-align: middle;
-			}
-		</style><?php
-		echo '<table class="wpematico-data-table">
-			<tr>
-				<td>
-					<b>'.__('Published by Campaign', 'wpematico' ).':</b>
-				</td>
-				<td>
-					<a title="'.__('Edit the campaign.', 'wpematico' ).'" href="'.admin_url('post.php?post='.$campaign_id.'&action=edit').'" target="_blank">'.get_the_title($campaign_id).'</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<b>'.__('From feed', 'wpematico' ).':</b>
-				</td>
-				<td>
-					<a title="'.__('Open the feed URL in the browser.', 'wpematico' ).'" href="'.$feed.'" rel="nofollow" target="_blank">'.$feed.'</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<b>'.__('Source permalink', 'wpematico' ).':</b>
-				</td>
-				<td>
-					<a title="'.__('Go to the source website to see the original content.', 'wpematico' ).'" href="'.$source.'" rel="nofollow" target="_blank">'.$source.'</a>
-				</td>
-			</tr>
-		</table>';
-	}
+
 	public static function disable_autosave() {
 	//	global $post_type, $post, $typenow;
 		if(get_post_type() != 'wpematico') return ;
@@ -113,23 +46,25 @@ class WPeMatico_Campaign_edit extends WPeMatico_Campaign_edit_functions {
 		if($post->post_type != 'wpematico') return $post_id;
 		?>
 <style type="text/css">
-	#post_format-box h2.hndle {background: #7afed1;	}
-	#campaign_types h2.hndle {background: #b4ceb1;}
-	#category-box h2.hndle {background: #f09999;}
-	#post_tag-box h2.hndle {background: #f997c7;}
-	#log-box h2.hndle {background: #55a288;}
-	#feeds-box h2.hndle {background: #eb9600;}
-	#xml-campaign-box h2.hndle {background: #ce5c00;} /* #91a78d */
-	#youtube-box h2.hndle {background: red; color: white;}
-	#bbpress-box h2.hndle {background: #8DC770;}
-	#options-box h2.hndle {background: #84f384;}
-	#cron-box h2.hndle {background: #d4b388;} /* cron en otra metabox */
-	#images-box h2.hndle {background: #e1fb34;}
-	#template-box h2.hndle {background: #c1fefe;}
-	#word2cats-box h2.hndle {background: #f6e3c5;}
-	#rewrite-box h2.hndle {background: #ffb3be;}
-	#fullcontent-box h2.hndle {background: #006100;	color: white;}
-	#submitdiv h2.hndle {background: #0085ba;	color: white;}
+	.postbox-header h2.hndle .dashicons{ margin-right: 5px; }
+	.postbox-header h2.hndle {justify-content: initial;}
+	#post_format-box h2.hndle, #post_format-box .postbox-header {background: #7afed1; }
+	#campaign_types h2.hndle, #campaign_types .postbox-header {background: #b4ceb1; }
+	#category-box h2.hndle, #category-box .postbox-header {background: #f09999; }
+	#post_tag-box h2.hndle, #post_tag-box .postbox-header {background: #f997c7; }
+	#log-box h2.hndle, #log-box .postbox-header {background: #55a288; }
+	#feeds-box h2.hndle, #feeds-box .postbox-header {background: #eb9600; }
+	#xml-campaign-box h2.hndle, #xml-campaign-box .postbox-header {background: #ce5c00; } /* #91a78d */
+	#youtube-box h2.hndle, #youtube-box .postbox-header {background: red; color: white; }
+	#bbpress-box h2.hndle, #bbpress-box .postbox-header {background: #8DC770; }
+	#options-box h2.hndle, #options-box .postbox-header {background: #84f384; }
+	#cron-box h2.hndle, #cron-box .postbox-header {background: #d4b388; } /* cron en otra metabox */
+	#images-box h2.hndle, #images-box .postbox-header {background: #e1fb34; }
+	#template-box h2.hndle, #template-box .postbox-header {background: #c1fefe; }
+	#word2cats-box h2.hndle, #word2cats-box .postbox-header {background: #f6e3c5; }
+	#rewrite-box h2.hndle, #rewrite-box .postbox-header {background: #ffb3be; }
+	#fullcontent-box h2.hndle, #fullcontent-box .postbox-header {background: #006100;	color: white; }
+	#submitdiv h2.hndle, #submitdiv .postbox-header {background: #0085ba;	color: white; }
 	.ruedita{background: url(<?php echo admin_url('images/spinner.gif'); ?>) no-repeat 4px !important;}
 	<?php
 		$CampaignTypesArray =  self::campaign_type_options();
@@ -469,7 +404,7 @@ class WPeMatico_Campaign_edit extends WPeMatico_Campaign_edit_functions {
 					$pos = strpos($feed, ' '); // The feed URL can't has white spaces.
 					if ($pos === false) {
 						$fetch_feed_params = array(
-							'url' 			=> $feed,
+							'url' 			=> esc_url_raw($feed),
 							'stupidly_fast' => true,
 							'max' 			=> 0,
 							'order_by_date' => false,

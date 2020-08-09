@@ -417,7 +417,6 @@ class wpematico_campaign_fetch_functions {
 					if($options_images['featuredimg'] && $current_item['featured_image'] == $imagen_src) {
 						$featured = true;
 					}
-<<<<<<< HEAD
 					$imagen_src = apply_filters('wpematico_imagen_src', $imagen_src ); // allow strip parts 
 					
 					//Fix image with get params
@@ -435,10 +434,7 @@ class wpematico_campaign_fetch_functions {
 					}
 					
 				    trigger_error(__('Uploading media...', 'wpematico' ).$imagen_src,E_USER_NOTICE);
-=======
-					$imagen_src		 = apply_filters('wpematico_imagen_src', $imagen_src); // allow strip parts 
-					trigger_error(__('Uploading media...', 'wpematico') . $imagen_src, E_USER_NOTICE);
->>>>>>> upstream/master
+
 					$imagen_src_real = $this->getRelativeUrl($itemUrl, $imagen_src);
 					// Strip all white space on images URLs.	
 					$imagen_src_real = str_replace(' ', '%20', $imagen_src_real);
@@ -449,12 +445,9 @@ class wpematico_campaign_fetch_functions {
 					$allowed		 = apply_filters('wpematico_allowext', $allowed);
 					//Fetch and Store the Image	
 					///////////////***************************************************************************************////////////////////////
-<<<<<<< HEAD
+					
 					$newimgname = apply_filters('wpematico_newimgname', sanitize_file_name(urlencode(basename($imagen_src_real))), $current_item, $campaign, $item  );  // new name here
 					
-=======
-					$newimgname		 = apply_filters('wpematico_newimgname', sanitize_file_name(urlencode(basename($imagen_src_real))), $current_item, $campaign, $item);  // new name here
->>>>>>> upstream/master
 					// Primero intento con mi funcion mas rapida
 					$upload_dir		 = wp_upload_dir();
 					$imagen_dst		 = trailingslashit($upload_dir['path']) . $newimgname;

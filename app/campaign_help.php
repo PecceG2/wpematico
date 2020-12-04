@@ -32,6 +32,10 @@ $helpcampaign = array(
 				<li>'. __('The feed item date is not too far in the past (specifically, as much time as the campaign frequency).', 'wpematico' ).' </li>
 				<li>'. __('The fetched feed item date is not in the future.', 'wpematico' ).' </li></ul>',
 		),
+		'campaign_feeddate_forced' => array( 
+			'title' => __('Force item date.', 'wpematico' ),
+			'tip' => __('Use the feed item date ignoring incoherent dates like past posts published after new ones.', 'wpematico' ),
+		),
 		'linktosource' => array( 
 			'title' => __('Post title links to source.', 'wpematico' ),
 			'tip' => __('This option make the title permalink to original URL.', 'wpematico' ).'<br />'. 
@@ -63,6 +67,11 @@ $helpcampaign = array(
 			'title' => __('Author.', 'wpematico' ),
 			'tip' => __('The posts created by this campaign will be assigned to this author.', 'wpematico' ),
 		),
+		'get_excerpt' => array( 
+			'title' => __('Fill Excerpt with item description field.', 'wpematico' ),
+			'tip' => __('Wordpress defaults are making the excerpts "on the fly" from post contents, but check this option if you want to fill in the excerpt field with the description tag of the item. ', 'wpematico' ),
+			'plustip' => __('You could get the same value of the content because if the description field does not exists the content field will be used. ', 'wpematico' ),
+		),
 		'striphtml' => array( 
 			'title' => __('Strip All HTML Tags.', 'wpematico' ),
 			'tip' => __('Remove all HTML from original content', 'wpematico' ).'<br>'.
@@ -86,7 +95,19 @@ $helpcampaign = array(
 				'<br>'.__('Fill in the feed URL field in the standard way.', 'wpematico' ).
 				'<br><br>'.__('For Youtube Channel as: https://www.youtube.com/feeds/videos.xml?channel_id=%channelid%', 'wpematico' ).
 				'<br>'.__('For Youtube User as: https://www.youtube.com/feeds/videos.xml?user=%username%', 'wpematico' ).
+				'<br>'.__('For Youtube Playlist as: https://www.youtube.com/feeds/videos.xml?playlist_id=%playlist_id%', 'wpematico' ).
 				'<br><br>'.__('The campaign fetches the title, the image, the embebed video and the description.', 'wpematico' ),
+		),
+		'youtube_embed' => array( 
+			'title' => __('Use [embed]', 'wpematico' ),
+			'tip' => __('Use [embed] WordPress shortcode instead Youtube shared iframe html code.', 'wpematico' ) . '<br>'
+				. __('The Embed feature allows you to wrap embedded items using a simple Shortcode to set of a maximum (but not fixed) width and height. This was added as of WordPress 2.9 and is used like this: ', 'wpematico' )
+				. '[embed]...[/embed]',
+		),
+		'youtube_sizes' => array( 
+			'title' => __('Video sizes', 'wpematico' ),
+			'tip' => __('Width and Height of the video frame in the post.', 'wpematico' ) . '<br>'
+				. __('Recommended left 0 (zero) for responsive.', 'wpematico' ),
 		),
 	),
 	'bbPress Forums' => array( 
@@ -134,6 +155,12 @@ $helpcampaign = array(
 		'featuredimg' => array( 
 				'title' => __('Set first image on content as Featured Image.', 'wpematico' ),
 				'tip' => __('Check this to set first image found on every content to be uploaded, attached and made Featured.', 'wpematico' ),
+		),
+		'fifu'	 => array(
+			'title'		 => __('Use Featured Image from URL.', 'wpematico'),
+			'tip'		 => __('Check this to use Featured Image from URL plugin. Be sure it is installed and activated.', 'wpematico'),
+			'plustip'	 => '<small> ' . __('Read about', 'wpematico') . ' <a href="https://wordpress.org/plugins/featured-image-from-url/" rel="nofollow" target="_Blank">' . __('Featured Image from URL', 'wpematico') . '</a> ' . __('plugin in WordPress repository.','wpematico') . '</small><br />' .
+				__('Note if that plugin is not activated, WPeMatico will still save the meta fields in each post but does\'t show any featured image.', 'wpematico'),
 		),
 		'enable_featured_image_selector' => array( 
 				'title' => __('Enable featured image selector.', 'wpematico' ),
